@@ -22,4 +22,14 @@ class Client extends Model
     {
         return $this->hasMany(ClientPurchases::class);
     }
+
+    public function review()
+    {
+        return $this->hasMany(ProductReview::class);
+    }
+
+    public function favorite()
+    {
+        return $this->hasMany(ClientFavorites::class);
+    }
 }

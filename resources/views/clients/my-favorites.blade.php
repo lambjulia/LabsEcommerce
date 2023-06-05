@@ -32,17 +32,17 @@
     </div>
 </div>
     <div class="container">
-        <h6>My Purchases</h6>
+        <h6>My Favorites <i class="bi bi-star-fill text-warning"></i></h6>
         <div class="row justify-content-center">
-            @foreach ($products as $p)
+            @foreach ($product as $p)
                 <div class="col-md-3 d-flex mb-4">
                     <div class="card" style="width: 18rem;">
-                        <img src="{{ asset($p->product->images->first()->path) }}" class="mx-auto d-block w-100 card-img-top" alt="Card Image">
+                        <img src="{{ asset($p->products->images->first()->path) }}" class="mx-auto d-block w-100 card-img-top" alt="Card Image">
                         <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">{{ $p->product->name }}</h5>
-                            <h6 class="card-title">US$ {{ $p->product->price }}</h5>
-                                <p class="card-text">{{ $p->product->description }}</p>
-                                <a href="{{ route('product.show', $p->product->id) }}" class="btn btn-primary mt-auto">See More</a>
+                            <h5 class="card-title">{{ $p->products->name }}</h5>
+                            <h6 class="card-title">US$ {{ $p->products->price }}</h5>
+                                <p class="card-text">{{ $p->products->description }}</p>
+                                <a href="{{ route('product.show', $p->products->id) }}" class="btn btn-primary mt-auto">See More</a>
                         </div>
                     </div>
                 </div>
@@ -50,3 +50,4 @@
         </div>
     </div> 
 @endsection
+

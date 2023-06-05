@@ -33,10 +33,17 @@ Route::get('/product-edit/{id}', [ProductsController::class, 'edit'])->name('pro
 
 Route::post('/product-update/{id}', [ProductsController::class, 'update'])->name('product.update')->middleware('seller.approved');
 
-Route::delete('/image/{id}', [ProductsController::class, 'destroy'])->name('image.delete');
+Route::delete('/image/{id}', [ProductsController::class, 'destroyImage'])->name('image.delete');
 
 Route::get('/filter', [ProductsController::class, 'filter'])->name('product.filter');
 
+Route::get('/review/{id}', [ProductsController::class, 'review'])->name('review')->middleware('checkUserRole:client');
+
+Route::post('/reviewStore/{id}', [ProductsController::class, 'reviewStore'])->name('review.store')->middleware('checkUserRole:client');
+
+Route::post('/favorite/{id}', [ProductsController::class, 'favorite'])->name('favorite')->middleware('checkUserRole:client');
+
+Route::delete('/favorite-delete/{id}', [ProductsController::class, 'deleteFavorite'])->name('favorite.delete');
 
 //Admin
 Route::get('/products', [AdminController::class, 'products'])->name('admin.products')->middleware('checkUserRole:admin');
@@ -57,7 +64,7 @@ Route::get('/client-edit', [ClientController::class, 'edit'])->name('client.edit
 
 Route::post('/client-update', [ClientController::class, 'update'])->name('client.update')->middleware('checkUserRole:client');
 
-Route::post('/purchase/{product}', [ClientController::class, 'comprar'])->name('purchase')->middleware('checkUserRole:client');
+Route::post('/purchase/{product}', [ClientController::class, 'buy'])->name('purchase')->middleware('checkUserRole:client');
 
 Route::get('/my-purchases', [ClientController::class, 'purchases'])->name('client.purchases')->middleware('checkUserRole:client');
 
@@ -71,6 +78,7 @@ Route::get('reset-password/{token}', [ClientController::class, 'showResetPasswor
 
 Route::post('reset-password', [ClientController::class, 'submitResetPasswordForm'])->name('reset.password.post')->middleware(['guest']);
 
+Route::get('/my-favorites', [ClientController::class, 'favorites'])->name('client.favorites')->middleware('checkUserRole:client');
 
 //Seller
 Route::get('/seller-create', [SellerController::class, 'create'])->name('seller.create');

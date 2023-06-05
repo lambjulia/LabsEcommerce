@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\EmailVerification;
 use App\Http\Controllers\Controller;
+use App\Models\ClientFavorites;
 use App\Models\ClientPurchases;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
@@ -212,7 +213,7 @@ class ClientController extends Controller
         return redirect('/login')->with('password-update', '402');
     }
 
-    public function comprar(Request $request, Products $product)
+    public function buy(Request $request, Products $product)
     {
         $userId = auth()->user()->id;
         $client = Client::where('user_id', $userId)->first();
@@ -220,7 +221,7 @@ class ClientController extends Controller
         $seller = $product->seller;
 
         if ($client->credit < $product->price) {
-            return redirect()->back()->with('error', 'Crédito insuficiente para comprar o produto.');
+            return redirect()->back()->with('buy-error', '402');
         }
 
         $client->credit -= $product->price;
@@ -249,4 +250,17 @@ class ClientController extends Controller
 
         return view('clients.my-purchases', compact('products', 'images', 'user'));
     }
+
+    public function favorites()
+    {
+        $userId = Auth::id();
+        $user = User::find($userId);
+
+        $client_id = $user->client->id;
+        $product = ClientFavorites::where('client_id', '=', $client_id)->get();
+        $images = ProductImages::all();
+
+        return view('clients.my-favorites', compact('product', 'images', 'user'));
+    }
+
 }

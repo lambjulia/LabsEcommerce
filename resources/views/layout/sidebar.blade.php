@@ -18,6 +18,7 @@
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
     <a class="nav-link active" href="{{ route('client.edit') }}">My Profile</a>
     <a class="nav-link active" href="{{ route('client.purchases') }}">My Purchases</a>
+    <a class="nav-link active" href="{{ route('client.favorites') }}">My Favorites</a>
   </div>
   @endif
   <script>

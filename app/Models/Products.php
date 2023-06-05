@@ -10,7 +10,7 @@ class Products extends Model
     use HasFactory;
 
     protected $fillable = [
-        'seller_id', 'name', 'description', 'price', 'category'
+        'seller_id', 'name', 'description', 'price', 'category', 'views'
     ];
 
     public function seller()
@@ -26,5 +26,15 @@ class Products extends Model
     public function purchases()
     {
         return $this->hasMany(ClientPurchases::class);
+    }
+
+    public function review()
+    {
+        return $this->hasMany(ProductReview::class);
+    }
+
+    public function favorite()
+    {
+        return $this->hasMany(ClientFavorites::class);
     }
 }

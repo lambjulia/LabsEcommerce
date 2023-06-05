@@ -9,7 +9,7 @@ I used the dummyjson API to register some products by seeder, the products are r
 
 The seller can register new products and edit them, he can also see his sales.
 
-The buyer can buy the products losing the value of the product in his credits and giving the value to the seller, he can also see his purchases.
+The buyer can buy the products losing the value of the product in his credits and giving the value to the seller, he can also see his purchases, review the products, favorite them and see his favorites.
 
 The admin can see all registered products, customers and sellers and authorize, deny or leave pending the registration of each seller.
 

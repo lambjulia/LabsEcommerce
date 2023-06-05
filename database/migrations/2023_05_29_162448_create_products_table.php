@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('description');
             $table->integer('price');
             $table->string('category');
+            $table->integer('views')->default(0);
 
             $table->foreign('seller_id')->references('id')->on('sellers');
             $table->timestamps();

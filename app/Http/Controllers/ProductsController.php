@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\ProductImages;
 use Illuminate\Http\Request;
 use App\Models\Products;
+use App\Models\Client;
+use App\Models\ClientFavorites;
+use App\Models\ProductReview;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
@@ -42,10 +45,74 @@ class ProductsController extends Controller
     {
         $products = Products::find($id);
         $images = ProductImages::where('products_id', '=', $id)->get();
+        $review = ProductReview::where('products_id', '=', $id)->get();
+        $products->increment('views');
         $user = Auth::user();
 
-        return view('products.product-show', compact('products', 'images', 'user'));
+        return view('products.product-show', compact('products', 'images', 'user', 'review'));
     }
+
+    public function review($id)
+    {
+        $products = Products::find($id);   
+        $user = Auth::user();
+        return view('products.review', compact('products', 'user'));
+    }
+
+    public function reviewStore(Request $request, $id)
+    {
+       
+        $request->validate([
+            'note' => 'required|numeric|min:1|max:5',
+            'comment' => 'required|string|max:255',
+        ]);
+
+        $productId = $id;
+        $userId = Auth::id();
+        $user = User::find($userId);
+        $clientId = $user->client->id;
+       
+        $review = new ProductReview();
+        $review->products_id = $productId;
+        $review->client_id = $clientId;
+        $review->note = $request->note;
+        $review->comment = $request->comment;
+
+        $review->save();
+
+        return redirect()->route('product.show', $id)->with('review-store', '402');
+    }
+
+    public function favorite($id)
+    {
+        $produtoId = $id;
+        $userId = Auth::id();
+        $user = User::find($userId);
+        $clientId = $user->client->id;
+       
+        $favorite = new ClientFavorites();
+        $favorite->products_id = $produtoId;
+        $favorite->client_id = $clientId;
+
+        $favorite->save();
+
+        return redirect()->route('product.show', $id)->with('favorite', '402');
+    }
+
+    public function deleteFavorite($id)
+    {
+        $userId = Auth::id();
+        $user = User::find($userId);
+    
+        $produtoId = $id;
+
+        $favorite = $user->client->favorite()->where('products_id', $produtoId)->first();
+       
+        $favorite->delete();
+
+        return redirect()->back()->with('favorite-delete', '402');
+    }
+
 
     public function create()
     {
@@ -162,7 +229,7 @@ class ProductsController extends Controller
         return redirect()->back()->with('product-update', '402');
     }
 
-    public function destroy($id)
+    public function destroyImage($id)
     {
         $imagem = ProductImages::findOrFail($id);
 
