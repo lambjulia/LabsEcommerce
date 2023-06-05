@@ -6,8 +6,6 @@ use App\Models\ProductImages;
 use Illuminate\Http\Request;
 use App\Models\Products;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Http;
-use GuzzleHttp\Client;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 
@@ -99,8 +97,6 @@ class ProductsController extends Controller
             }
         }
 
-
-
         return redirect()->back()->with('product-store', '402');
     }
 
@@ -171,7 +167,6 @@ class ProductsController extends Controller
         $imagem = ProductImages::findOrFail($id);
 
         $imagem->delete();
-
 
         return redirect()->back();
     }

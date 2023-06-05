@@ -92,7 +92,6 @@ class SellerController extends Controller
 
     public function sold()
     {
-
         $userId = Auth::id();
         $user = User::find($userId);
 

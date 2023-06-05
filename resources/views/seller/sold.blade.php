@@ -32,7 +32,7 @@
     </div>
 </div>
 <div class="container">
-        <div class="row">
+        <div class="row justify-content-center">
             @foreach ($products as $p)
                 <div class="col-md-3 d-flex mb-4">
                     <div class="card" style="width: 18rem;">

@@ -240,7 +240,6 @@ class ClientController extends Controller
 
     public function purchases()
     {
-
         $userId = Auth::id();
         $user = User::find($userId);
 

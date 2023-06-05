@@ -7,7 +7,6 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\SellerController;
 use App\Http\Controllers\ClientController;
 
-// ->middleware('checkUserRole:seller')
 Route::get('/', function () {
     return redirect()->route('home');
 });
