@@ -14,7 +14,8 @@
                                 <div class="col-8">
                                     <div class="mb-3">
                                         <label for="comment" class="form-label">Comment</label>
-                                        <textarea class="form-control  @error('comment') is-invalid @enderror" id="comment" name="comment" rows="3"></textarea>
+                                        <textarea class="form-control  @error('comment') is-invalid @enderror"
+                                        value="{{ old('comment') }}" id="comment" name="comment" rows="3"></textarea>
                                     @error('comment')
                                         <div class="alert-danger">{{ $message }}</div>
                                     @enderror

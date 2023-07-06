@@ -54,14 +54,14 @@ class ProductsController extends Controller
 
     public function review($id)
     {
-        $products = Products::find($id);   
+        $products = Products::find($id);
         $user = Auth::user();
         return view('products.review', compact('products', 'user'));
     }
 
     public function reviewStore(Request $request, $id)
     {
-       
+
         $request->validate([
             'note' => 'required|numeric|min:1|max:5',
             'comment' => 'required|string|max:255',
@@ -71,7 +71,7 @@ class ProductsController extends Controller
         $userId = Auth::id();
         $user = User::find($userId);
         $clientId = $user->client->id;
-       
+
         $review = new ProductReview();
         $review->products_id = $productId;
         $review->client_id = $clientId;
@@ -89,7 +89,7 @@ class ProductsController extends Controller
         $userId = Auth::id();
         $user = User::find($userId);
         $clientId = $user->client->id;
-       
+
         $favorite = new ClientFavorites();
         $favorite->products_id = $produtoId;
         $favorite->client_id = $clientId;
@@ -103,11 +103,11 @@ class ProductsController extends Controller
     {
         $userId = Auth::id();
         $user = User::find($userId);
-    
+
         $produtoId = $id;
 
         $favorite = $user->client->favorite()->where('products_id', $produtoId)->first();
-       
+
         $favorite->delete();
 
         return redirect()->back()->with('favorite-delete', '402');
@@ -252,15 +252,6 @@ class ProductsController extends Controller
             $query->where('category', $category);
         }
 
-        $products = $query->get();
-
-        if ($request->sort_by == 'lowest_price') {
-            $products = Products::orderBy('price', 'asc')->get();
-        }
-        if ($request->sort_by == 'highest_price') {
-            $products = Products::orderBy('price', 'desc')->get();
-        }
-
         $userId = Auth::id();
         $user = User::find($userId);
 
@@ -268,27 +259,17 @@ class ProductsController extends Controller
             if ($user->role == 'seller') {
                 $sellerId = $user->seller->id;
 
-                $query = Products::query();
-
-                if ($request->filled('name')) {
-                    $name = $request->name;
-                    $query->where('name', 'like', "%$name%")->where('seller_id', '=', $sellerId);
-                }
-
-                if ($request->filled('category')) {
-                    $category = $request->category;
-                    $query->where('category', $category)->where('seller_id', '=', $sellerId);
-                }
-
-                $products = $query->get();
-
-                if ($request->sort_by == 'lowest_price') {
-                    $products = Products::where('seller_id', '=', $sellerId)->orderBy('price', 'asc')->get();
-                }
-                if ($request->sort_by == 'highest_price') {
-                    $products = Products::where('seller_id', '=', $sellerId)->orderBy('price', 'desc')->get();
-                }
+                $query->where('seller_id', $sellerId);
             }
+        }
+
+        $products = $query->get();
+
+        if ($request->sort_by == 'lowest_price') {
+            $products = $query->orderBy('price', 'asc')->get();
+        }
+        if ($request->sort_by == 'highest_price') {
+            $products = $query->orderBy('price', 'desc')->get();
         }
 
         return view('products.products-all', compact('products', 'user'))->render();

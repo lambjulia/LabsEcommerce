@@ -34,7 +34,7 @@ class ClientController extends Controller
             [
                 'name' => 'required',
                 'email' => 'required|unique:users|email',
-                'password' => [Password::min(8)
+                'password' => ['required', Password::min(8)
                     ->letters()
                     ->numbers()],
                 'cpf' => 'required|cpf|unique:clients',
@@ -111,16 +111,16 @@ class ClientController extends Controller
         $userId = auth()->user()->id;
 
         $user = User::find($userId);
+        $client = $user->client;
 
-        $validator = Validator::make(
-            $request->all(),
+        $request->validate(
             [
                 'name' => 'required',
                 'email' => 'required|email|unique:users,email,' . $user->id,
                 'password' => ['required', Password::min(8)
                     ->letters()
                     ->numbers()],
-                'cpf' => 'required|cpf|unique:clients,cpf,' . $user->id,
+                'cpf' => 'required|cpf|unique:clients,cpf,' . $client->id,
                 'birth' => 'required|before:' . now()->subYears(18)->toDateString(),
                 'state' => 'required',
                 'city' => 'required',

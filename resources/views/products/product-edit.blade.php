@@ -60,7 +60,7 @@
                                     <input type="file" id="image" name="image[]" accept="image/*"
                                         class="form-control">
                                 @else
-                                    <p>Limite máximo de 3 imagens atingido.</p>
+                                    <p>Maximum limit of 3 images reached.</p>
                                 @endif
 
                             </div>
@@ -71,19 +71,18 @@
                         </form>
                         <div class="row">
                             @foreach ($products->images as $image)
-                                <div class="col-md-4 d-flex ">
-                                    <div class="card" style="width: 18rem;">
-                                        <img src="{{ asset($image->path) }}" alt="Imagem do produto"
-                                            class="mx-auto d-block w-100 card-img-top">
-                                        <form action="{{ route('image.delete', $image->id) }}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <div class="card-footer text-center">
-                                                <button type="submit" class="btn btn-primary mx-auto">Excluir</button>
-                                            </div>
-                                        </form>
+                            <div class="col-md-4 d-flex mb-3">
+                                <div class="card" style="width: 18rem;">
+                                    <img src="{{ asset($image->path) }}"
+                                        class="mx-auto card-img-top">
+                                    <div class="card-footer text-center">
+                                        <button type="button" class="btn btn-primary delete-item  mx-auto"
+                                            data-item-id="{{ $image->id }}">
+                                            Delete
+                                        </button>
                                     </div>
                                 </div>
+                            </div>
                             @endforeach
                         </div>
                     </div>
@@ -91,4 +90,31 @@
             </div>
         </div>
     </div>
+    <script>
+        // Event listener para o botão de exclusão
+        document.querySelectorAll('.delete-item').forEach(function(button) {
+            button.addEventListener('click', function() {
+                var itemId = this.getAttribute('data-item-id');
+
+                Swal.fire({
+                    title: 'Confirm delete',
+                    text: 'Are you sure you want to delete this image?',
+                    icon : 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Delete',
+                    cancelButtonText: 'Cancel'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        var form = document.createElement('form');
+                        form.action = '{{ route('image.delete', ':id') }}'.replace(':id', itemId);
+                        form.method = 'POST';
+                        form.innerHTML = '@csrf @method('DELETE')';
+
+                        document.body.appendChild(form);
+                        form.submit();
+                    }
+                });
+            });
+        });
+    </script>
 @endsection

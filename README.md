@@ -15,7 +15,8 @@ The admin can see all registered products, customers and sellers and authorize, 
 
 # How to run the project
 
-- The .env is already in the project
+- Configure your .env with email trigger data
+
 - Open your terminal and run the command
 git clone https://github.com/lambjulia/LabsEcommerce
 
@@ -25,12 +26,14 @@ git clone https://github.com/lambjulia/LabsEcommerce
 
 2 - npm install
 
-3 - npm run build
+3 - npm run dev
 
-4 - npm run dev
+4- php artisan key:generate
 
-5 - php artisan migrate --seed -> run "yes" to create the system database
+5- php artisan storage:link
 
-6 - php artisan serve
+6 - php artisan migrate --seed -> "yes" to create database
 
-7 - And open the server in browser with http://127.0.0.1:8000
+7 - php artisan serve
+
+8 - And open the server in browser with http://127.0.0.1:8000

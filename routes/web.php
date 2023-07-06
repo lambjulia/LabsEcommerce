@@ -29,7 +29,7 @@ Route::get('/product-create', [ProductsController::class, 'create'])->name('prod
 
 Route::post('/product-store', [ProductsController::class, 'store'])->name('product.store')->middleware('seller.approved');
 
-Route::get('/product-edit/{id}', [ProductsController::class, 'edit'])->name('product.edit')->middleware('seller.approved');
+Route::get('/product-edit/{id}', [ProductsController::class, 'edit'])->name('product.edit')->middleware('check.product.owner');
 
 Route::post('/product-update/{id}', [ProductsController::class, 'update'])->name('product.update')->middleware('seller.approved');
 

@@ -89,7 +89,7 @@
                             </div>
                             <br>
                             <div class="card-footer">
-                                <button type="submit" class="btn btn-primary">Cadastrar</button>
+                                <button type="submit" class="btn btn-primary">Save</button>
                             </div>
                         </form>
                     </div>

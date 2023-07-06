@@ -67,11 +67,11 @@ class SellerController extends Controller
 
         $user = User::find($userId);
 
-        $validator = Validator::make($request->all(),
+        $request->validate(
             [
                 'name' => 'required',
                 'email' => 'required|email|unique:users,email,' . $user->id,
-                'password' => [Password::min(8)
+                'password' => ['required', Password::min(8)
                     ->letters()
                     ->numbers()],
             ],

@@ -60,7 +60,7 @@
         </div>
 
         @if (auth()->check() && (auth()->user()->role === 'seller' && Auth::user()->seller->status === 'approved'))
-            <a class="btn btn-primary" href="{{ route('product.create') }}" role="button">Cadastrar Novo Produto</a>
+            <a class="btn btn-primary" href="{{ route('product.create') }}" role="button">Add New Product</a>
         @endif
 
         @if (auth()->check() &&

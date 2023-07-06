@@ -41,15 +41,15 @@
         </script>
     @endif
     @if (session('favorite-delete'))
-    <script>
-        Swal.fire({
-            icon: 'success',
-            title: 'Product deleted from favorites successfully!',
-            showConfirmButton: false,
-            timer: 1500
-        })
-    </script>
-@endif
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Product deleted from favorites successfully!',
+                showConfirmButton: false,
+                timer: 1500
+            })
+        </script>
+    @endif
     <div class="container">
         <div class="row">
             <div class="col">
@@ -115,19 +115,20 @@
                             <p class="card-text">{{ $products->description }}</p>
                             <p class="card-text">Category: {{ $products->category }}</p>
                             <p class="card-text">Views: {{ $products->views }}</p>
-                            <form action="{{ route('purchase', ['product' => $products->id]) }}" method="POST">
-                                @csrf
-                                <button type="submit" class="btn btn-primary mt-auto btn-lg">Comprar</button>
-                            </form>
-                            <p class="card-text">Sold by: {{ $products->seller->user->name }}</p>
 
                             @if (auth()->check() && auth()->user()->role === 'client')
-                                <hr>
-                                <form action="{{ route('review', ['id' => $products->id]) }}" method="GET">
-                                    @csrf
-                                    <button type="submit" class="btn btn-primary mt-auto btn-lg">Avaliar</button>
-                                </form>
+                                <div class="d-flex">
+                                    <form action="{{ route('purchase', ['product' => $products->id]) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="btn btn-primary mt-auto btn-lg">Buy</button>
+                                    </form>
+                                    <form action="{{ route('review', ['id' => $products->id]) }}" method="GET">
+                                        @csrf
+                                        <button type="submit" class="btn btn-primary mt-auto btn-lg mx-2">Review</button>
+                                    </form>
+                                </div>
                             @endif
+                            <p class="card-text">Sold by: {{ $products->seller->user->name }}</p>
                     </div>
                 </div>
             </div>
@@ -135,7 +136,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Avaliações</h5>
+                        <h5 class="card-title">Reviews</h5>
                         @foreach ($review as $key => $r)
                             <hr>
                             <p class="card-text"><i class="bi bi-person"></i> {{ $r->client->user->name }}</p>
